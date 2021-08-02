@@ -1,0 +1,7 @@
+train*
+test*
+*.log
+*.err
+
+Pipfile
+__pycache__

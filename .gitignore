@@ -1,7 +1,13 @@
-train*
-test*
 *.log
 *.err
+
+train*
+test*
+
+!examples/**
+
+!train.py
+!test.py
 
 Pipfile
 __pycache__

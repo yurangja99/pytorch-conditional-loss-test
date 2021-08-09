@@ -22,7 +22,7 @@ class CustomReLUDataset(Dataset):
     y_reg = (x < -1.0) * torch.randn(x.shape) + \
       (-1.0 <= x) * (x <= 0.0) * (-4.0 * x) + \
       (0.0 < x) * (x < 1.0) * torch.randn(x.shape) + \
-      (1.0 <= x) * (-16.0 * torch.pow(x - 1.5, 2) + 4.0)
+      (1.0 <= x) * 16.0 * torch.pow(x - 1.5, 2)
     
     self.x = torch.cat([x, x ** 2], dim=-1)
     self.y_cls = y_cls

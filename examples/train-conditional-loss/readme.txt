@@ -14,4 +14,4 @@ Lr drop milestones: [250, 350]
 Validation step: 10
 Save weights step: 100
 Use conditional(custom) loss: True
-Save path: /home/namsaeng/git/pytorch-custom-relu/train-21-08-03-19-40-11
+Save path: /home/namsaeng/git/pytorch-custom-relu/train-21-08-09-20-13-56

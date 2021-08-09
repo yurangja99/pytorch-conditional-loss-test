@@ -6,7 +6,7 @@
   - ![](examples/ideal-cls.png)
 - Furthermore, if the given random is in the range, I want to map it to following _(Regression)_: 
   - if ```x``` is in ```[-1.0, 0.0]```, ```y = -4.0 * x```
-  - else if ```x``` is in ```[1.0, 2.0]```, ```y = -16.0 * ((x - 1.5) ** 2) + 4.0```
+  - else if ```x``` is in ```[1.0, 2.0]```, ```y = 16.0 * ((x - 1.5) ** 2)```
   - otherwise, I don't care. 
   - ![](examples/ideal-reg.png)
 - To achieve the goal, my model will be trained to act like below.
@@ -19,7 +19,7 @@
       - ```x``` in ```[-2.0, -1.0)```: any values (no training)
       - ```x``` in ```[-1.0, 0.0]```: ```y_reg = -4.0 * x```
       - ```x``` in ```(0.0, 1.0)```: any values (no training)
-      - ```x``` in ```[1.0, 2.0]```: ```y_reg = -16.0 * ((x - 1.5) ** 2) + 4.0```
+      - ```x``` in ```[1.0, 2.0]```: ```y_reg = 16.0 * ((x - 1.5) ** 2)```
 
 ## Results
 - I run two times with normal loss function and my custom conditional loss function. 
@@ -112,7 +112,7 @@
     - ```0.0``` for other cases
   - ```y_reg```: ```torch.Tensor``` of ```(item_cnt, 1)```
     - ```-4.0 * x``` for ```x``` in ```[-1.0, 0.0]```
-    - ```-16.0 * ((x - 1.5) ** 2) + 4.0``` for ```x``` in ```[1.0, 2.0]```
+    - ```16.0 * ((x - 1.5) ** 2)``` for ```x``` in ```[1.0, 2.0]```
     - ```randn()``` for other cases (trash data)
 
 ### [model.py](model.py)

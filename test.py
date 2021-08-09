@@ -30,7 +30,7 @@ USE_CONDITIONAL_LOSS = True
 IS_PT_FILE = False
 MODEL_PATH = os.path.join(
   os.path.dirname(os.path.abspath(__file__)),
-  'train-conditional-loss',
+  'train-21-08-09-20-13-56',
   'final_weights'
 )
 SAVE_PATH = os.path.join(
@@ -183,7 +183,7 @@ plt.close()
 plot_x1 = np.linspace(-1.0, 0.0, 100)
 plot_y1 = -4.0 * plot_x1
 plot_x2 = np.linspace(1.0, 2.0, 100)
-plot_y2 = -16.0 * np.power(plot_x2 - 1.5, 2) + 4.0
+plot_y2 = 16.0 * np.power(plot_x2 - 1.5, 2)
 
 plt.title('Regression Result')
 plt.plot(plot_x1, plot_y1, 'k--', label='optimal')

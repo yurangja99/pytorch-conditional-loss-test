@@ -3,6 +3,7 @@ import torch
 from torch import nn
 from torch.utils.data import DataLoader
 from torch.utils.mobile_optimizer import optimize_for_mobile
+from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 from datetime import datetime, timezone, timedelta
 import pandas as pd
@@ -103,12 +104,19 @@ lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(
   milestones=LR_DROP_MILESTONES
 )
 
+writer = SummaryWriter(log_dir=os.path.join('runs', os.path.basename(SAVE_PATH)))
+
 train_loss_history = []
 train_loss_cls_history = []
 train_loss_reg_history = []
 val_loss_history = []
 val_loss_cls_history = []
 val_loss_reg_history = []
+
+#######################
+# Plot Model Structure
+#######################
+writer.add_graph(network, torch.rand(1, 2).cuda())
 
 #######################
 # Training
@@ -165,6 +173,9 @@ for epoch in tqdm(range(1, MAX_EPOCHS + 1)):
   train_loss_history.append(train_loss / train_cnt)
   train_loss_cls_history.append(train_loss_cls / train_cnt)
   train_loss_reg_history.append(train_loss_reg / train_cnt)
+  writer.add_scalar('Loss/train', train_loss / train_cnt, epoch)
+  writer.add_scalar('Loss_cls/train', train_loss_cls / train_cnt, epoch)
+  writer.add_scalar('Loss_reg/train', train_loss_reg / train_cnt, epoch)
 
   # save weights in specific steps
   if epoch % SAVE_STEP == 0:
@@ -221,7 +232,13 @@ for epoch in tqdm(range(1, MAX_EPOCHS + 1)):
       val_loss_history.append(val_loss / val_cnt)
       val_loss_cls_history.append(val_loss_cls / val_cnt)
       val_loss_reg_history.append(val_loss_reg / val_cnt)
+      writer.add_scalar('Loss/val', val_loss / val_cnt, epoch)
+      writer.add_scalar('Loss_cls/val', val_loss_cls / val_cnt, epoch)
+      writer.add_scalar('Loss_reg/val', val_loss_reg / val_cnt, epoch)
 
+# flush and close tensorboard writer
+writer.flush()
+writer.close()
 
 #######################
 # Save training results

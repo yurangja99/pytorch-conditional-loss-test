@@ -2,6 +2,7 @@ import os
 import torch
 from torch import nn
 from torch.utils.data import DataLoader
+from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 import numpy as np
 from datetime import datetime, timezone, timedelta
@@ -30,7 +31,7 @@ USE_CONDITIONAL_LOSS = True
 IS_PT_FILE = False
 MODEL_PATH = os.path.join(
   os.path.dirname(os.path.abspath(__file__)),
-  'train-21-08-09-20-13-56',
+  'train-21-08-09-21-51-38',
   'final_weights'
 )
 SAVE_PATH = os.path.join(
@@ -79,6 +80,13 @@ else:
 network.cuda()
 
 loss_calculator = CustomReLULoss()
+
+writer = SummaryWriter(log_dir=os.path.join('runs', os.path.basename(SAVE_PATH)))
+
+#######################
+# Plot Model Structure
+#######################
+writer.add_graph(network, torch.rand(1, 2).cuda())
 
 #######################
 # Initialize result
@@ -146,7 +154,7 @@ with torch.no_grad():
 
     test_cnt += 1
   
-  # append val loss
+  # append average of val loss
   csv = csv.append(
     {
       'index': 'AVG', 
@@ -156,6 +164,18 @@ with torch.no_grad():
     },
     ignore_index=True
   )
+
+  # cls: draw precision-recall curve
+  writer.add_pr_curve(
+    tag='In_target_range', 
+    labels=np.array(gt_cls_all), 
+    predictions=np.array(y_cls_all), 
+    global_step=0
+  )
+
+# flush and close tensorboard writer
+writer.flush()
+writer.close()
 
 #######################
 # Save testing result

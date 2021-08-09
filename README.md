@@ -50,7 +50,9 @@
 ### Train
 - First, open ```train.py``` and set your configurations. 
 - Type ```python3 train.py``` at root directory. 
-- (If you want to run it as background process, type ```nohup python3 train.py > [sometrainname].log 2> [sometrainname].err &```)
+- _(If you want to run it as background process, type ```nohup python3 train.py > [sometrainname].log 2> [sometrainname].err &```)_
+- Type ```tensorboard --logdir=runs``` to see model structure and training status. You can see them by accessing <http://localhost:6006/>. 
+- _(If you want to share them with others, type ```tensorboard dev upload --logdir=runs``` and follow the instructions. You can get a sharable URL. )_
 - After the process, check output folder. Followings are examples of training results. 
   - Output directory
     - ![](examples/output-train.png)
@@ -80,11 +82,15 @@
   - loss csvs
     - [loss-train](examples/train-conditional-loss/loss-train.csv)
     - [loss-val](examples/train-conditional-loss/loss-val.csv)
+  - result images by tensorboard
+    - ![tensorboard-scalars](examples/tensorboard_scalars.png)
 
 ### Test
 - First, open ```test.py``` and set your configurations. 
 - Type ```python3 test.py``` at root directory. 
-- (If you want to run it as background process, type ```nohup python3 test.py > [sometestname].log 2> [sometestname].err &```)
+- _(If you want to run it as background process, type ```nohup python3 test.py > [sometestname].log 2> [sometestname].err &```)_
+- Type ```tensorboard --logdir=runs``` to see model structure and training status. You can see them by accessing <http://localhost:6006/>. 
+- _(If you want to share them with others, type ```tensorboard dev upload --logdir=runs``` and follow the instructions. You can get a sharable URL. )_
 - After the process, check output folder. Followings are examples of training results. 
   - Output directory
     - ![](examples/output-test.png)
@@ -101,6 +107,8 @@
   - result images
     - ![](examples/test-conditional-loss/result-cls.png)
     - ![](examples/test-conditional-loss/result-reg.png)
+  - result images by tensorboard
+    - ![tensorboard-prcurves](examples/tensorboard_pr_curves.png)
 
 ## Codes
 ### [dataset.py](dataset.py)
@@ -117,6 +125,7 @@
 
 ### [model.py](model.py)
 - Define model for this repository. 
+- ![](examples/model_structure.png)
 - Layers
   - Common Layers
     - ```Input```: ```(batch_size, 2)```
@@ -158,5 +167,5 @@
 - You can change configs as you want. 
 
 ## To Do
-- [ ] Tensorboard (model visualization, checking training status)
-
+- [x] Tensorboard (model visualization, checking training status)
+- [ ] Use tensorboard to find optimal hyperparameters
